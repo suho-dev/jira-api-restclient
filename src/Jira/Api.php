@@ -433,7 +433,7 @@ class Api
     {
         $options = array_merge(
             array(
-                "file" => '@' . $filename,
+                "file" => $filename,
             ),
             $options
         );
