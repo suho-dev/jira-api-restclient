@@ -351,7 +351,7 @@ class Api
             ),
             "summary" => $summary,
             "issuetype" => array(
-                "id" => $issueType,
+                "name" => $issueType,
             )
         );
 
