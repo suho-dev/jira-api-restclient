@@ -345,13 +345,20 @@ class Api
      */
     public function createIssue($projectKey, $summary, $issueType, $options = array())
     {
+        //Determine if the issueType has been selected via an ID or by its string name
+        if (is_numeric($issueType)) {
+            $issueTypeField = "id";
+        } else {
+            $issueTypeField = "name";
+        }
+
         $default = array(
             "project" => array(
                 "key" => $projectKey,
             ),
             "summary" => $summary,
             "issuetype" => array(
-                "name" => $issueType,
+                $issueTypeField => $issueType,
             )
         );
 
