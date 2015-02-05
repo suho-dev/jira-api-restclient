@@ -402,6 +402,29 @@ class Api
     }
 
     /**
+     * Search for a user.
+     *
+     * @param type $searchString
+     *
+     * @return type
+     */
+    public function userSearch($searchString, $startAt = 0, $maxResults = 50, $includeActive = true, $includeInactive = false) {
+        $result = $this->api(
+            self::REQUEST_GET,
+            "/rest/api/2/user/search",
+            array(
+                "username" => $searchString,
+                "startAt" => $startAt,
+                "maxResults" => $maxResults,
+                "includeActive" => ($includeActive) ? "true": "false",
+                "includeInactive" => ($includeInactive) ? "true": "false"
+            )
+        );
+
+        return $result;
+    }
+
+    /**
      * create JIRA Version
      *
      * @param $project_id
