@@ -78,8 +78,9 @@ class CurlClient implements ClientInterface
         if ($method == "POST") {
             curl_setopt($curl, CURLOPT_POST, 1);
             if ($isFile) {
-                $curlFile = new \CURLFile($data['file']);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => $curlFile));
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+//                $curlFile = new \CURLFile($data['file']);
+//                curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => $curlFile));
             } else {
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
             }
