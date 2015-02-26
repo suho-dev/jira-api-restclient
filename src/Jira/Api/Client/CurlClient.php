@@ -78,13 +78,10 @@ class CurlClient implements ClientInterface
         if ($method == "POST") {
             curl_setopt($curl, CURLOPT_POST, 1);
             if ($isFile) {
-                  //This is required to be able to change the name of the file that is being uploaded. I don't know why it won't work when I just have 'filename'
-                  //as another array value..
-                  if (isset($data['filename'])) {
-                      $data['file'] .= ";filename=".$data['filename'];
-                      unset($data['filename']);
-                  }
-                  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                //This is required to be able to change the name of the file that is being uploaded. I don't know why it won't work when I just have 'filename'
+                //as another array value..
+                $data['file'] .= ";filename=".basename($data['file']);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 //                $curlFile = new \CURLFile($data['file']);
 //                curl_setopt($curl, CURLOPT_POSTFIELDS, array('file' => $curlFile));
             } else {
