@@ -58,7 +58,7 @@ class CurlClient implements ClientInterface
 
         $curl = curl_init();
 
-        if ($method == "GET") {
+        if ($method == "GET" || $method == "DELETE") {
             $url .= "?" . http_build_query($data);
         }
 
@@ -92,6 +92,10 @@ class CurlClient implements ClientInterface
                 curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
                 curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
             }
+        }
+
+        if ($method == "DELETE") {
+            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
         }
 
         $data = curl_exec($curl);

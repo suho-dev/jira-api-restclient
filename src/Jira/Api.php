@@ -572,6 +572,18 @@ class Api
     }
 
     /**
+     * Remove a user from watching an issue
+     *
+     * @param type $issueKey  - The key of the issue to remove the watcher from
+     * @param type $username - The ID of the Jira user.
+     *
+     * @return mixed
+     */
+    public function removeWatcher($issueKey, $username) {
+        return $this->api(self::REQUEST_DELETE, sprintf("/rest/api/2/issue/%s/watchers", $issueKey), array("username" => $username));
+    }
+
+    /**
      * close issue
      *
      * @param $issueKey
