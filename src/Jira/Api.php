@@ -558,9 +558,7 @@ class Api
 			),
 			'summary' => $summary,
 			'issuetype' => array(
-				'id' => $issue_type,
-				'name' => $issue_type,
-				'issueTypeField' => $issue_type
+				'name' => $issue_type
 			),
 		);
 
