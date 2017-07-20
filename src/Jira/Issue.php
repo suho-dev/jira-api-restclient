@@ -24,308 +24,313 @@
  */
 namespace chobie\Jira;
 
+
 class Issue
 {
-    /* @var array $expand */
-    protected $expand;
 
-    /* @var string $id */
-    protected $id;
+	/**
+	 * Expand.
+	 *
+	 * @var array
+	 */
+	protected $expand;
 
-    /* @var string $self */
-    protected $self;
+	/**
+	 * ID.
+	 *
+	 * @var string
+	 */
+	protected $id;
 
-    /* @var string $key */
-    protected $key;
+	/**
+	 * Self.
+	 *
+	 * @var string
+	 */
+	protected $self;
 
-    /* @var array $fields */
-    protected $fields;
+	/**
+	 * Key.
+	 *
+	 * @var string
+	 */
+	protected $key;
 
-    /* @var array $expandedInformation */
-    protected $expandedInformation;
+	/**
+	 * Fields.
+	 *
+	 * @var array
+	 */
+	protected $fields;
 
-    /**
-     * @param array $issue
-     */
-    public function __construct($issue = array())
-    {
-        if (isset($issue['expand'])) {
-            $this->expand = explode(",", $issue['expand']);
-            unset($issue['expand']);
-        }
-        if (isset($issue['id'])) {
-            $this->id = $issue['id'];
-            unset($issue['id']);
-        }
+	/**
+	 * Expand information.
+	 *
+	 * @var array
+	 */
+	protected $expandedInformation;
 
-        if (isset($issue['self'])) {
-            $this->self = $issue['self'];
-            unset($issue['self']);
-        }
-        if (isset($issue['key'])) {
-            $this->key = $issue['key'];
-            unset($issue['key']);
-        }
-        if (isset($issue['fields'])) {
-            $this->fields = $issue['fields'];
-            unset($issue['fields']);
-        }
-        $this->expandedInformation = $issue;
-    }
+	/**
+	 * Creates issue instance.
+	 *
+	 * @param array $issue Issue.
+	 */
+	public function __construct(array $issue = array())
+	{
+		if ( isset($issue['expand']) ) {
+			$this->expand = explode(',', $issue['expand']);
+			unset($issue['expand']);
+		}
 
-    /**
-     * get issue key (YOURPROJ-123)
-     *
-     * @return string
-     */
-    public function getKey()
-    {
-        return $this->key;
-    }
+		if ( isset($issue['id']) ) {
+			$this->id = $issue['id'];
+			unset($issue['id']);
+		}
 
-    /**
-     * get jira's internal issue id
-     *
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+		if ( isset($issue['self']) ) {
+			$this->self = $issue['self'];
+			unset($issue['self']);
+		}
 
-    /**
-     * get this issue api url
-     *
-     * @return string
-     */
-    public function getSelf()
-    {
-        return $this->self;
-    }
+		if ( isset($issue['key']) ) {
+			$this->key = $issue['key'];
+			unset($issue['key']);
+		}
 
-    /**
-     * get current fields
-     *
-     * @return array
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
+		if ( isset($issue['fields']) ) {
+			$this->fields = $issue['fields'];
+			unset($issue['fields']);
+		}
 
-    /**
-     * get issue summary
-     *
-     * @return mixed
-     */
-    public function getSummary()
-    {
-        if (isset($this->fields['Summary'])) {
-            return $this->fields['Summary'];
-        }
-    }
+		$this->expandedInformation = $issue;
+	}
 
-    /**
-     * get issue type
-     *
-     * @return mixed
-     */
-    public function getIssueType()
-    {
-        if (isset($this->fields['Issue Type'])) {
-            return $this->fields['Issue Type'];
-        }
-    }
+	/**
+	 * Gets issue key (YOURPROJ-123).
+	 *
+	 * @return string
+	 */
+	public function getKey()
+	{
+		return $this->key;
+	}
 
-    /**
-     * get issue reporter
-     *
-     * @return mixed
-     */
-    public function getReporter()
-    {
-        if (isset($this->fields['Reporter'])) {
-            return $this->fields['Reporter'];
-        }
-    }
+	/**
+	 * Gets jira's internal issue id.
+	 *
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * get issue created time
-     *
-     * @return mixed
-     */
-    public function getCreated()
-    {
-        if (isset($this->fields['Created'])) {
-            return $this->fields['Created'];
-        }
-    }
+	/**
+	 * Get this issue api url.
+	 *
+	 * @return string
+	 */
+	public function getSelf()
+	{
+		return $this->self;
+	}
 
-    /**
-     * get the current assignee
-     *
-     * @return mixed
-     */
+	/**
+	 * Get current fields.
+	 *
+	 * @return array
+	 */
+	public function getFields()
+	{
+		return $this->fields;
+	}
 
-    public function getAssignee()
-    {
-        if (isset($this->fields['Assignee'])) {
-            return $this->fields['Assignee'];
-        }
-    }
+	/**
+	 * Get issue summary.
+	 *
+	 * @return mixed
+	 */
+	public function getSummary()
+	{
+		return $this->get('Summary');
+	}
 
-    /**
-     * get issue updated time
-     *
-     * @return mixed
-     */
-    public function getUpdated()
-    {
-        if (isset($this->fields['Updated'])) {
-            return $this->fields['Updated'];
-        }
-    }
+	/**
+	 * Get issue type.
+	 *
+	 * @return mixed
+	 */
+	public function getIssueType()
+	{
+		return $this->get('Issue Type');
+	}
 
-    /**
-     * get priority
-     *
-     * @return mixed
-     */
-    public function getPriority()
-    {
-        if (isset($this->fields['Priority'])) {
-            return $this->fields['Priority'];
-        }
-    }
+	/**
+	 * Get issue reporter.
+	 *
+	 * @return mixed
+	 */
+	public function getReporter()
+	{
+		return $this->get('Reporter');
+	}
 
-    /**
-     * get description
-     *
-     * @return mixed
-     */
-    public function getDescription()
-    {
-        if (isset($this->fields['Description'])) {
-            return $this->fields['Description'];
-        }
-    }
+	/**
+	 * Get issue created time.
+	 *
+	 * @return mixed
+	 */
+	public function getCreated()
+	{
+		return $this->get('Created');
+	}
 
-    /**
-     * get issue status
-     *
-     * @return mixed
-     */
-    public function getStatus()
-    {
-        if (isset($this->fields['Status'])) {
-            return $this->fields['Status'];
-        }
-    }
+	/**
+	 * Get the current assignee.
+	 *
+	 * @return mixed
+	 */
+	public function getAssignee()
+	{
+		return $this->get('Assignee');
+	}
 
-    /**
-     * get labels
-     *
-     * @return mixed
-     */
-    public function getLabels()
-    {
-        if (isset($this->fields['Labels'])) {
-            return $this->fields['Labels'];
-        }
-    }
+	/**
+	 * Get issue updated time.
+	 *
+	 * @return mixed
+	 */
+	public function getUpdated()
+	{
+		return $this->get('Updated');
+	}
 
-    /**
-     * get project info
-     *
-     * @return mixed
-     */
-    public function getProject()
-    {
-        if (isset($this->fields['Project'])) {
-            return $this->fields['Project'];
-        }
-    }
+	/**
+	 * Get priority.
+	 *
+	 * @return mixed
+	 */
+	public function getPriority()
+	{
+		return $this->get('Priority');
+	}
 
-    /**
-     * get fix versions.
-     *
-     * @return mixed
-     */
-    public function getFixVersions()
-    {
-        if (isset($this->fields['Fix Version/s'])) {
-            return $this->fields['Fix Version/s'];
-        }
-    }
+	/**
+	 * Get description.
+	 *
+	 * @return mixed
+	 */
+	public function getDescription()
+	{
+		return $this->get('Description');
+	}
 
-    /**
-     * get resolutions
-     *
-     * @return mixed
-     */
-    public function getResolution()
-    {
-        if (isset($this->fields['Resolution'])) {
-            return $this->fields['Resolution'];
-        }
-    }
+	/**
+	 * Get issue status.
+	 *
+	 * @return mixed
+	 */
+	public function getStatus()
+	{
+		return $this->get('Status');
+	}
 
-    /**
-     * Is the field exists? Maybe there should be 'Planned End'?
-     *
-     * get resolution date
-     *
-     * @return mixed
-     */
-    public function getResolutionDate()
-    {
-        if (isset($this->fields['Resolutiondate'])) {
-            return $this->fields['Resolutiondate'];
-        }
-    }
+	/**
+	 * Get labels.
+	 *
+	 * @return mixed
+	 */
+	public function getLabels()
+	{
+		return $this->get('Labels');
+	}
 
-    /**
-     * get watches
-     *
-     * @return mixed
-     */
-    public function getWatchers()
-    {
-        if (isset($this->fields['Watchers'])) {
-            return $this->fields['Watchers'];
-        }
-    }
+	/**
+	 * Get project info.
+	 *
+	 * @return mixed
+	 */
+	public function getProject()
+	{
+		return $this->get('Project');
+	}
 
-    /**
-     * get due date
-     *
-     * @return mixed
-     */
-    public function getDueDate()
-    {
-        if (isset($this->fields['Due Date'])) {
-            return $this->fields['Due Date'];
-        }
-    }
+	/**
+	 * Get fix versions.
+	 *
+	 * @return mixed
+	 */
+	public function getFixVersions()
+	{
+		return $this->get('Fix Version/s');
+	}
 
-    /**
-     * get information represented in call output due to expand=... suffix
-     * @see https://docs.atlassian.com/jira/REST/latest/
-     * @return array
-     */
-    public function getExpandedInformation()
-    {
-        return $this->expandedInformation;
-    }
+	/**
+	 * Get resolutions.
+	 *
+	 * @return mixed
+	 */
+	public function getResolution()
+	{
+		return $this->get('Resolution');
+	}
 
-    /**
-     * @param $key
-     * @return array
-     */
-    public function get($key)
-    {
-        if (isset($this->fields[$key])) {
-            return $this->fields[$key];
-        }
-    }
+	/**
+	 * Get resolution date.
+	 *
+	 * @return mixed
+	 * @todo   Is the field exists? Maybe there should be 'Planned End'?
+	 */
+	public function getResolutionDate()
+	{
+		return $this->get('Resolutiondate');
+	}
+
+	/**
+	 * Get watches.
+	 *
+	 * @return mixed
+	 */
+	public function getWatchers()
+	{
+		return $this->get('Watchers');
+	}
+
+	/**
+	 * Get due date.
+	 *
+	 * @return mixed
+	 */
+	public function getDueDate()
+	{
+		return $this->get('Due Date');
+	}
+
+	/**
+	 * Get information represented in call output due to expand=... suffix.
+	 *
+	 * @return array
+	 * @see    https://docs.atlassian.com/jira/REST/latest/
+	 */
+	public function getExpandedInformation()
+	{
+		return $this->expandedInformation;
+	}
+
+	/**
+	 * Gets field by name.
+	 *
+	 * @param string $field_key Field key.
+	 *
+	 * @return array
+	 */
+	public function get($field_key)
+	{
+		if ( isset($this->fields[$field_key]) ) {
+			return $this->fields[$field_key];
+		}
+
+		return null;
+	}
+
 }

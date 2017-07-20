@@ -24,62 +24,151 @@
  */
 namespace chobie\Jira;
 
+
 class IssueType
 {
-    protected $self;
 
-    protected $id;
+	/**
+	 * Self.
+	 *
+	 * @var string
+	 */
+	protected $self;
 
-    protected $description;
+	/**
+	 * ID.
+	 *
+	 * @var string
+	 */
+	protected $id;
 
-    protected $iconUrl;
+	/**
+	 * Description.
+	 *
+	 * @var string
+	 */
+	protected $description;
 
-    protected $name;
+	/**
+	 * Icon URL.
+	 *
+	 * @var string
+	 */
+	protected $iconUrl;
 
-    protected $subtask;
+	/**
+	 * Name.
+	 *
+	 * @var string
+	 */
+	protected $name;
 
-    private $acceptable_keys = array(
-        "self",
-        "id",
-        "description",
-        "iconUrl",
-        "name",
-        "subtask",
-    );
+	/**
+	 * Sub-task.
+	 *
+	 * @var string
+	 */
+	protected $subTask;
 
-    public function __construct($types)
-    {
-        foreach ($types as $key => $value) {
-            if (in_array($key, $this->acceptable_keys)) {
-                $this->$key = $value;
-            } else {
-                throw new \Exception("the key {$key} does not support");
-            }
-        }
-    }
+	/**
+	 * Avatar ID.
+	 *
+	 * @var string
+	 */
+	protected $avatarId;
 
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Acceptable keys.
+	 *
+	 * @var array
+	 */
+	private $_acceptableKeys = array(
+		'self',
+		'id',
+		'description',
+		'iconUrl',
+		'name',
+		'subtask',
+		'avatarId',
+	);
 
-    public function isSubtask()
-    {
-        return $this->subtask;
-    }
+	/**
+	 * Creates issue instance.
+	 *
+	 * @param array $types Types.
+	 *
+	 * @throws \Exception When unknown type is given.
+	 */
+	public function __construct(array $types)
+	{
+		foreach ( $types as $key => $value ) {
+			if ( in_array($key, $this->_acceptableKeys) ) {
+				$this->$key = $value;
+			}
+			else {
+				throw new \Exception('the key ' . $key . ' does not support');
+			}
+		}
+	}
 
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Gets name.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    public function getDescription()
-    {
-        return $this->description;
-    }
+	/**
+	 * Gets sub-task.
+	 *
+	 * @return string
+	 */
+	public function isSubtask()
+	{
+		return $this->subTask;
+	}
 
-    public function getIconUrl()
-    {
-        return $this->iconUrl;
-    }
+	/**
+	 * Gets ID.
+	 *
+	 * @return string
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Gets description.
+	 *
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
+	 * Gets icon url.
+	 *
+	 * @return string
+	 */
+	public function getIconUrl()
+	{
+		return $this->iconUrl;
+	}
+
+	/**
+	 * Gets avatar id.
+	 *
+	 * @return string
+	 */
+	public function getAvatarId()
+	{
+		return $this->avatarId;
+	}
+
 }

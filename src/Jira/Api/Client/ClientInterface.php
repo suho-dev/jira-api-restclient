@@ -24,21 +24,40 @@
  */
 namespace chobie\Jira\Api\Client;
 
+
 use chobie\Jira\Api\Authentication\AuthenticationInterface;
+use chobie\Jira\Api\Exception;
+use chobie\Jira\Api\UnauthorizedException;
 
 interface ClientInterface
 {
-    /**
-     * send request to the api server
-     *
-     * @param $method
-     * @param $url
-     * @param array $data
-     * @param $endpoint
-     * @param $credential
-     * @return array|string
-     *
-     * @throws \Exception
-     */
-    public function sendRequest($method, $url, $data = array(), $endpoint, AuthenticationInterface $credential, $isFile = false, $debug = false);
+
+	/**
+	 * Sends request to the API server.
+	 *
+	 * @param string                  $method     Request method.
+	 * @param string                  $url        URL.
+	 * @param array|string            $data       Request data.
+	 * @param string                  $endpoint   Endpoint.
+	 * @param AuthenticationInterface $credential Credential.
+	 * @param boolean                 $is_file    This is a file upload request.
+	 * @param boolean                 $debug      Debug this request.
+	 *
+	 * @return array|string
+	 * @throws \InvalidArgumentException When non-supported implementation of AuthenticationInterface is given.
+	 * @throws \InvalidArgumentException When data is not an array and http method is GET.
+	 * @throws Exception When request failed due communication error.
+	 * @throws UnauthorizedException When request failed, because user can't be authorized properly.
+	 * @throws Exception When there was empty response instead of needed data.
+	 */
+	public function sendRequest(
+		$method,
+		$url,
+		$data = array(),
+		$endpoint,
+		AuthenticationInterface $credential,
+		$is_file = false,
+		$debug = false
+	);
+
 }
